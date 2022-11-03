@@ -44,12 +44,18 @@ call plug#begin("~/.config/nvim/plugged")
 	Plug 'kyazdani42/nvim-web-devicons'
 	Plug 'tpope/vim-surround'
 	Plug 'akinsho/bufferline.nvim'
+	Plug 'andymass/vim-matchup'
+	Plug 'nvim-lua/popup.nvim'
+	Plug 'nvim-lua/plenary.nvim'
+	Plug 'nvim-telescope/telescope.nvim'
+	Plug 'nvim-telescope/telescope-media-files.nvim'
 call plug#end()
 
 let g:catppuccin_flavour = "mocha" " latte, frappe, macchiato, mocha
 
 lua << EOF
 require("catppuccin").setup()
+require('telescope').load_extension('media_files')
 EOF
 
 set termguicolors
@@ -66,8 +72,10 @@ function! ToggleNERDTree()
   silent NERDTreeMirror
 endfunction
 
+inoremap <expr> <cr> coc#pum#visible() ? coc#pum#confirm() : "\<CR>"
 nnoremap <C-e> :call ToggleNERDTree()<CR>
 vmap <leader>f  <Plug>(coc-format-selected)
 nmap <leader>f  <Plug>(coc-format-selected)
+nnoremap <C-f> :Rg<CR>
 
 command! -nargs=0 Prettier :CocCommand prettier.forceFormatDocument
